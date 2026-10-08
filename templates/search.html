@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>🔍 Search Items</h1>
+<form class="search-box" method="GET">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search item, category or location...">
+    <button class="btn primary">Search</button>
+</form>
+
+{% if query %}
+<h2>Search Results for "{{ query }}"</h2>
+<div class="cards">
+{% for item in results %}
+    <div class="item-card">
+        <div class="badge {% if item['item_type'] == 'Lost' %}lost{% else %}found{% endif %}">{{ item['item_type'] }}</div>
+        <h3>{{ item['item_name'] }}</h3>
+        <p>📂 {{ item['category'] }}</p>
+        <p>📍 {{ item['location'] }}</p>
+        <p>{{ item['description'] }}</p>
+        <p>📞 {{ item['contact'] }}</p>
+        <span class="status">{{ item['status'] }}</span>
+    </div>
+{% else %}
+    <div class="empty">❌ No matching item found.</div>
+{% endfor %}
+</div>
+{% endif %}
+{% endblock %}

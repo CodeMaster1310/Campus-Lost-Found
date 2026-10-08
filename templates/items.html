@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <div><h1>All Items</h1><p>All lost and found reports.</p></div>
+    <a class="btn primary" href="{{ url_for('report') }}">+ Report Item</a>
+</div>
+
+<div class="table-container">
+<table>
+    <thead>
+        <tr><th>Item</th><th>Category</th><th>Type</th><th>Location</th><th>Date</th><th>Status</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <td><strong>{{ item['item_name'] }}</strong></td>
+            <td>{{ item['category'] }}</td>
+            <td>{{ item['item_type'] }}</td>
+            <td>{{ item['location'] }}</td>
+            <td>{{ item['date'] }}</td>
+            <td>{{ item['status'] }}</td>
+            <td>
+                {% if item['status'] != 'Returned' %}
+                <a class="small-btn" href="{{ url_for('returned', item_id=item['id']) }}">Returned</a>
+                {% endif %}
+                <a class="delete-btn" href="{{ url_for('delete', item_id=item['id']) }}" onclick="return confirm('Delete this item?')">Delete</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="7">No items available.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
